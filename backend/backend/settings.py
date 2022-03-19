@@ -40,11 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'authapp.apps.AuthappConfig',
-    
+    'products.apps.ProductsConfig',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     
     'corsheaders',
+    
+    'django_extensions',
 ]
 
 REST_FRAMEWORK = {

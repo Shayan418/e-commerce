@@ -10,12 +10,14 @@ import { AuthProvider } from './context/authContext';
 import Newheader from './components/navbar/index';
 import RegisterForm from './pages/RegisterPage';
 import PublicRoute from './utils/PublicRoute';
+import Categories from './components/categories/categories';
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Newheader />
+        <Categories />
         <Routes>
           <Route path="/" exact element={<PublicRoute outlet={<HomePage />} />} />
           <Route path="login" element={<LoginForm />} />
