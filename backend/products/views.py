@@ -1,13 +1,19 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from .serializers import serializeCategory
-from .models import Category
+from .serializers import CategorySerializer, ProductSerializer
+from .models import Category, Product
 
 @api_view(['POST'])
 def getCategories(request):
     categories = Category.objects.all()
-    serializer = serializeCategory(categories, many=True)
+    serializer = CategorySerializer(categories, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def getAllProducts(request):
+    products = Product.objects.all()
+    serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 
 
@@ -15,6 +21,7 @@ def getCategories(request):
 def getRoutes(request):
     routes = [
         '/api/getCategories/',
+        '/api/allProducts/',
     ]
 
     return Response(routes)

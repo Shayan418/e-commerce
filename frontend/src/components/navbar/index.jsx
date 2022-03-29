@@ -22,7 +22,7 @@ function Newheader() {
         <Navbar.Brand href="/">
           E-Comerce <AiFillShop />
         </Navbar.Brand>
-        {size.width <= 990 ? (
+        {size.width < 992 ? (
           <div className="d-flex flex-grow-1 justify-content-end">
             <Nav.Link href="#" className="d-flex ">
               <AiOutlineShoppingCart />
@@ -53,7 +53,7 @@ function Newheader() {
             )}
           </Nav>
         </Navbar.Collapse>
-        {size.width > 990 ? (
+        {size.width > 991 ? (
           <Nav.Link href="#">
             <AiOutlineShoppingCart />
           </Nav.Link>
