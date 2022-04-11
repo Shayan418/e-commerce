@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -16,6 +17,9 @@ def getAllProducts(request):
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 
+@api_view(['POST'])
+def getProduct(request, productid):
+    return Response(NULL)
 
 @api_view(['GET'])
 def getRoutes(request):

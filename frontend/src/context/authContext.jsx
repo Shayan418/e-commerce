@@ -44,6 +44,11 @@ export function AuthProvider({ children }) {
     });
     const data = await responce.json();
     console.log('data:', data);
+    if (responce.status === 200) {
+      navigate('/login');
+    } else {
+      console.log('something went wrong');
+    }
   };
 
   const loginUser = async (e) => {

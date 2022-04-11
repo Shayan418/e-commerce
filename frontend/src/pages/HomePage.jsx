@@ -56,18 +56,24 @@ function HomePage() {
           return (
             <div key={item.id} className="col-md-4 col-sm-4 col-xs-6 product-box" min>
               <div className="inner-product-box">
-                <div className="product-image-section">
-                  <div className="prucuct-wishlist-buttton">
-                    <Button id={item.id} onClick={(e) => addToWishlist(e)}>
-                      wishlist
-                    </Button>
+                <div className="product-box-details">
+                  <div className="product-image-section">
+                    <div className="prucuct-wishlist-buttton">
+                      <Button id={item.id} onClick={(e) => addToWishlist(e)}>
+                        wishlist
+                      </Button>
+                    </div>
+                    <div className="product-image">
+                      <img
+                        className="product-image"
+                        src={'http://127.0.0.1:8000' + item.images[0].file}
+                        alt={item.title}
+                      />
+                    </div>
                   </div>
-                  <div className="product-image">
-                    <img
-                      className="product-image"
-                      src={'http://127.0.0.1:8000' + item.images[0].file}
-                      alt={item.title}
-                    />
+                  <div className="product-info">
+                    <div className="product-title">{item.title}</div>
+                    <div className="product-price">{item.price}</div>
                   </div>
                 </div>
                 <div className="pruduct-button-wrapper">

@@ -1,10 +1,9 @@
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import './categories.css';
 import clothing from '../../../resources/categories/clothing.webp';
-import electronics from '../../../resources/categories/electronics.webp';
-import home from '../../../resources/categories/home.webp';
+import electronics from '../../../resources/categories/Electronics.webp';
+import home from '../../../resources/categories/Home.webp';
 import mobilecomputer from '../../../resources/categories/mobilecomputer.webp';
-
 
 function Categories() {
   return (

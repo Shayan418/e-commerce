@@ -1,3 +1,4 @@
+from itertools import product
 from django.db import models
 from django_extensions.db.fields import AutoSlugField
 from authapp.models import User
@@ -38,11 +39,18 @@ class Product(models.Model):
     description = models.CharField(max_length=1024)
     time = models.DateTimeField(auto_now=True, auto_now_add=False)
     price = models.ForeignKey('Prices', on_delete=models.SET_NULL, null=True)
-    sellers = models.ManyToManyField(Sellers)
+    sellers = models.ManyToManyField(Sellers, through='Product_Seller')
     item_category = models.ForeignKey(Category, related_name="item_with_category", on_delete=models.SET_NULL, null=True, blank=True)
     images = models.ManyToManyField(ProductImage)
     def __str__(self):
         return f"{self.title}"
+
+class Product_Seller(models.Model):
+    product = models.ForeignKey(Product, on_delete=CASCADE)
+    seller = models.ForeignKey(Sellers, on_delete=CASCADE)
+    
+    def __str__(self):
+        return f"{self.product.title} : {self.seller.seller.first_name}"
     
 
 class Prices(models.Model):
@@ -52,3 +60,13 @@ class Prices(models.Model):
     
     def __str__(self):
         return f"{self.user.first_name}: {self.product_id.title} price: {self.price}"
+
+class Wishlist(models.Model):
+    active = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=CASCADE, null=True)
+    product = models.ForeignKey(Product, on_delete=CASCADE, null=True)
+    
+class Cart(models.Model):
+    active = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=CASCADE, null=True)
+    product = models.ForeignKey(Product, on_delete=CASCADE, null=True)
