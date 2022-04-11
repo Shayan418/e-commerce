@@ -1,4 +1,6 @@
+/* eslint-disable prefer-template */
 import React from 'react';
+import './HomePage.scss';
 import { Button, Container, Row } from 'react-bootstrap';
 
 function HomePage() {
@@ -34,20 +36,54 @@ function HomePage() {
     console.log('effect run');
   }, [productsData]);
 
+  function addToWishlist(e) {
+    console.log('wishlist' + e.target.id);
+  }
+
+  function addToCart(e) {
+    console.log('Cart' + e.target.id);
+  }
+
+  function productView(e) {
+    console.log('productView' + e.target.id);
+  }
+
   return (
-    <>
-      <Container>
-        <Row>
-          <h1>Homepage</h1>
-          <div className="col-md-4 col-sm-4 col-xs-6 product-box">
-            <h1>product box</h1>
-          </div>
-        </Row>
-      </Container>
-      {productsData.map((item) => {
-        return <p key={item.id}>{JSON.stringify(item)}</p>;
-      })}
-    </>
+    <Container>
+      <Row>
+        <h1>Homepage</h1>
+        {productsData.map((item) => {
+          return (
+            <div key={item.id} className="col-md-4 col-sm-4 col-xs-6 product-box" min>
+              <div className="inner-product-box">
+                <div className="product-image-section">
+                  <div className="prucuct-wishlist-buttton">
+                    <Button id={item.id} onClick={(e) => addToWishlist(e)}>
+                      wishlist
+                    </Button>
+                  </div>
+                  <div className="product-image">
+                    <img
+                      className="product-image"
+                      src={'http://127.0.0.1:8000' + item.images[0].file}
+                      alt={item.title}
+                    />
+                  </div>
+                </div>
+                <div className="pruduct-button-wrapper">
+                  <Button id={item.id} onClick={(e) => productView(e)}>
+                    View
+                  </Button>
+                  <Button id={item.id} onClick={(e) => addToCart(e)}>
+                    Add to Cart
+                  </Button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </Row>
+    </Container>
   );
 }
 

@@ -27,16 +27,22 @@ class ProductImage(models.Model):
     def __str__(self):
         return f"{self.file.name}"
     
+class Sellers(models.Model):
+    seller = models.ForeignKey(User, related_name="sellers", on_delete=models.SET_NULL, null=True)
+    
+    def __str__(self):
+        return f"{self.seller.first_name}"
+    
 class Product(models.Model):
     title = models.CharField(max_length=128)
     description = models.CharField(max_length=1024)
     time = models.DateTimeField(auto_now=True, auto_now_add=False)
     price = models.ForeignKey('Prices', on_delete=models.SET_NULL, null=True)
-    listedby = models.ForeignKey(User, related_name="sellers", on_delete=models.SET_NULL, null=True)
+    sellers = models.ManyToManyField(Sellers)
     item_category = models.ForeignKey(Category, related_name="item_with_category", on_delete=models.SET_NULL, null=True, blank=True)
     images = models.ManyToManyField(ProductImage)
     def __str__(self):
-        return f"{self.listedby} :{self.title}"
+        return f"{self.title}"
     
 
 class Prices(models.Model):
