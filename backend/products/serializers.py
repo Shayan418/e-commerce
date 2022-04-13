@@ -1,7 +1,7 @@
 from dataclasses import field
 from rest_framework import serializers
 
-from .models import Category, Product, Prices, ProductImage
+from .models import Category, Product, Prices, ProductImage, Product_Seller, Sellers
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,3 +22,8 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['id' ,'title' ,'description', 'time', 'price', 'item_category','images']
+        
+class ProductSellerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sellers
+        fields = ['seller_id', 'name']

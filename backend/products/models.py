@@ -30,6 +30,7 @@ class ProductImage(models.Model):
     
 class Sellers(models.Model):
     seller = models.ForeignKey(User, related_name="sellers", on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=128, null=True, blank=True)
     
     def __str__(self):
         return f"{self.seller.first_name}"
