@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import LoginForm from './pages/LoginPage';
 import PrivateRoute from './utils/PrivateRoute';
+import ProductPage from './pages/ProductPage';
 import { AuthProvider } from './context/authContext';
 
 import Newheader from './components/navbar/index';
@@ -20,6 +21,11 @@ function App() {
         <Categories />
         <Routes>
           <Route path="/" exact element={<PublicRoute outlet={<HomePage />} />} />
+          <Route
+            path="product/:id"
+            exact
+            element={<PublicRoute outlet={<ProductPage />} />}
+          />
           <Route path="login" element={<LoginForm />} />
           <Route path="logout" />
           <Route path="register" element={<PublicRoute outlet={<RegisterForm />} />} />

@@ -2,13 +2,11 @@
 import React from 'react';
 import './HomePage.scss';
 import { Button, Container, Row } from 'react-bootstrap';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function HomePage() {
-  const [productsData, setProductsData] = React.useState(() =>
-    localStorage.getItem('productsData')
-      ? JSON.parse(localStorage.getItem('productsData'))
-      : [],
-  );
+  const [productsData, setProductsData] = React.useState([]);
+  const navigate = useNavigate();
 
   const fetchProducts = async () => {
     const responce = await fetch('http://127.0.0.1:8000/products/api/allProducts/', {
@@ -30,7 +28,7 @@ function HomePage() {
     if (productsData.length === 0) {
       fetchProducts();
     }
-  });
+  }, []);
 
   React.useEffect(() => {
     console.log('effect run');
@@ -46,6 +44,9 @@ function HomePage() {
 
   function productView(e) {
     console.log('productView' + e.target.id);
+    navigate({
+      pathname: `product/${e.target.id}`,
+    });
   }
 
   return (
