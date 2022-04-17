@@ -32,13 +32,9 @@ def getProduct(request):
 def getProductSellers(request):
     product_id = request.query_params["product_id"]
     sellers_from_mtm = Product_Seller.objects.filter(product_id=product_id, count__gt=0)
-    print(sellers_from_mtm)
     seller_ids = []
     for seller in sellers_from_mtm:
-        print(seller.inStock)
         seller_ids.append(seller.seller_id)
-
-    print(seller_ids)
     sellers = User.objects.filter(id__in=seller_ids)
     serializer = ProductSellerSerializer(sellers, many=True)
     return Response(serializer.data)
