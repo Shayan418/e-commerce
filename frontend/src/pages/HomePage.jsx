@@ -36,7 +36,7 @@ function HomePage() {
     console.log('effect run');
   }, [productsData]);
 
-  function callAddToWishlist(e) {
+  function AddToWishlist(e) {
     const user = JSON.parse(localStorage.getItem('authTokens')).access;
     console.log('wishlist' + e.target.id);
     const Wishlist = async (e) => {
@@ -92,7 +92,7 @@ function HomePage() {
                 <div className="product-box-details">
                   <div className="product-image-section">
                     <div className="prucuct-wishlist-buttton">
-                      <Button id={item.id} onClick={(e) => callAddToWishlist(e)}>
+                      <Button id={item.id} onClick={(e) => AddToWishlist(e)}>
                         wishlist
                       </Button>
                     </div>

@@ -7,6 +7,7 @@ from .models import (
     Wishlist,
     Cart,
     Product_Seller,
+    Orders
 )
 
 # Register your models here.
@@ -18,6 +19,8 @@ admin.site.register(Prices)
 admin.site.register(Wishlist)
 admin.site.register(Cart)
 admin.site.register(Product_Seller)
+admin.site.register(Orders)
+
 
 
 class Product_Seller(admin.ModelAdmin):

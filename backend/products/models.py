@@ -5,7 +5,7 @@ from django_extensions.db.fields import AutoSlugField
 from authapp.models import User
 from django.db.models.deletion import CASCADE
 import random
-
+import uuid
 
 class Category(models.Model):
     parent = models.ForeignKey(
@@ -96,5 +96,20 @@ class Wishlist(models.Model):
 
 class Cart(models.Model):
     active = models.BooleanField(default=False)
-    user = models.ForeignKey(User, on_delete=CASCADE, null=True)
+    buyer = models.ForeignKey(User, on_delete=CASCADE, null=True, related_name='buyer_in_cart' )
     product = models.ForeignKey(Product, on_delete=CASCADE, null=True)
+    seller = models.ForeignKey(User, on_delete=CASCADE, null=True, related_name='seller_in_cart')
+
+class Orders(models.Model):
+    Order_Status = (
+        ('pending', 'Pending'),
+        ('confirmed', 'Confirmed'),
+        ('dispatched', 'dispatched'),
+        ('delivered', 'Delivered'),
+    )
+    order_id = models.UUIDField(default=uuid.uuid4, editable=False)
+    order_status = models.CharField(max_length=20, choices=Order_Status, default='pending')
+    seller = models.ForeignKey(User, on_delete=CASCADE, null=True, related_name='seller_in_order')
+    buyer = models.ForeignKey(User, on_delete=CASCADE, null=True, related_name='buyer_in_order')
+    product = models.ForeignKey(Product, on_delete=CASCADE, null=True)
+    
