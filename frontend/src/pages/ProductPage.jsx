@@ -1,7 +1,14 @@
 /* eslint-disable prefer-template */
 import React from 'react';
 import './HomePage.scss';
-import { Button, Container, Row, Carousel, CarouselItem } from 'react-bootstrap';
+import {
+  Button,
+  ButtonGroup,
+  Container,
+  Row,
+  Carousel,
+  CarouselItem,
+} from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
 function ProductPage() {
@@ -80,6 +87,15 @@ function ProductPage() {
           <div className="page-header">
             <h2>{productData.title}</h2>
           </div>
+          <div className="Price-div">
+            <span className="price">₹ {productData.price}</span>
+          </div>
+          <ButtonGroup>
+            <Button>Add to Cart</Button>
+            <Button>Buy Now</Button>
+            <Button>Wishlist</Button>
+          </ButtonGroup>
+          <div className="Description">{productData.description}</div>
         </div>
       </Row>
     </Container>

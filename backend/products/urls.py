@@ -7,4 +7,6 @@ urlpatterns = [
     path("api/allProducts/", views.getAllProducts, name="AllProducts"),
     path("api/product/", views.getProduct, name="Product"),
     path("api/product/sellers/", views.getProductSellers, name="ProductSellers"),
+    path("api/product/wishlist/", views.AddRemoveWishlist, name="Wishlist"),
+    
 ]

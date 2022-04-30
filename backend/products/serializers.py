@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from authapp.models import User
 
-from .models import Category, Product, Prices, ProductImage, Product_Seller
+from .models import Category, Product, ProductImage, Wishlist
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -43,3 +43,16 @@ class ProductSellerSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "first_name"]
+
+class WishlistCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Wishlist
+        fields = '__all__'
+    
+    def create(self, validated_data):
+        wishlistObject = Wishlist.objects.create(
+            active = True,
+            user = self.context.get("request").user,
+            product = validated_data["product"]
+        )
+        return wishlistObject

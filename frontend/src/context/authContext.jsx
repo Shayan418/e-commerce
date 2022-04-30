@@ -104,11 +104,7 @@ export function AuthProvider({ children }) {
       setUser(jwtDecode(data.access));
       localStorage.setItem('authTokens', JSON.stringify(data));
     }
-    if (loading) {
-      setLoading(false);
-    } else {
-      logoutUser();
-    }
+    setLoading(false);
   };
 
   useEffect(() => {

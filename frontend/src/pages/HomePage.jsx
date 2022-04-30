@@ -1,13 +1,16 @@
 /* eslint-disable prefer-template */
-import React from 'react';
+import React, { useContext } from 'react';
 import './HomePage.scss';
 import { Button, Container, Row } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import addToWishlist from '../utils/wishlist';
+import 'react-toastify/dist/ReactToastify.css';
 
 function HomePage() {
   const [productsData, setProductsData] = React.useState([]);
   const navigate = useNavigate();
-
+  const notify = (message) => toast(message);
   const fetchProducts = async () => {
     const responce = await fetch('http://127.0.0.1:8000/products/api/allProducts/', {
       method: 'POST',
@@ -34,10 +37,39 @@ function HomePage() {
     console.log('effect run');
   }, [productsData]);
 
-  function addToWishlist(e) {
+  function callAddToWishlist(e) {
+    const user = JSON.parse(localStorage.getItem('authTokens')).access;
     console.log('wishlist' + e.target.id);
-  }
+    const Wishlist = async (e) => {
+      e.preventDefault();
+      const responce = await fetch(
+        'http://127.0.0.1:8000/products/api/product/wishlist/',
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${user}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            product: e.target.id,
+          }),
+        },
+      );
+      const data = await responce.json();
+      console.log('data:', data);
+      if (responce.status === 200) {
+        if (data.message === 'added') {
+          notify('Added to wishlist');
+        } else if (data.message === 'removed') {
+          notify('Removed from Wishlist');
+        }
+      } else {
+        console.log('something went wrong');
+      }
+    };
 
+    Wishlist(e);
+  }
   function addToCart(e) {
     console.log('Cart' + e.target.id);
   }
@@ -53,6 +85,7 @@ function HomePage() {
     <Container>
       <Row>
         <h1>Homepage</h1>
+        <ToastContainer />
         {productsData.map((item) => {
           return (
             <div key={item.id} className="col-md-4 col-sm-4 col-xs-6 product-box" min>
@@ -60,7 +93,7 @@ function HomePage() {
                 <div className="product-box-details">
                   <div className="product-image-section">
                     <div className="prucuct-wishlist-buttton">
-                      <Button id={item.id} onClick={(e) => addToWishlist(e)}>
+                      <Button id={item.id} onClick={(e) => callAddToWishlist(e)}>
                         wishlist
                       </Button>
                     </div>

@@ -1,9 +1,12 @@
+from urllib import response
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-
-from .serializers import CategorySerializer, ProductSerializer, ProductSellerSerializer
-from .models import Category, Product, Product_Seller
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from .serializers import CategorySerializer, ProductSerializer, ProductSellerSerializer, WishlistCreateSerializer
+from .models import Category, Product, Product_Seller, Wishlist
 from authapp.models import User
+
+from products import serializers
 
 
 @api_view(["POST"])
@@ -39,6 +42,32 @@ def getProductSellers(request):
     serializer = ProductSellerSerializer(sellers, many=True)
     return Response(serializer.data)
 
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def AddRemoveWishlist(request):
+    print(request.data)
+    wishlistobj = Wishlist.objects.filter(product = request.data["product"], user = request.user)
+    if not wishlistobj:
+        serializer = WishlistCreateSerializer(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        newWishlist = serializer.save()
+        return Response({
+            "message": "added",
+        })
+
+    if wishlistobj[0].active == True:
+        wishlistobj[0].active = False
+        wishlistobj[0].save()
+        return Response({
+             "message": "removed",
+        })
+    else:
+        wishlistobj[0].active = True
+        wishlistobj[0].save()
+        return Response({
+             "message": "added",
+        })
+    
 
 @api_view(["GET"])
 def getRoutes(request):
