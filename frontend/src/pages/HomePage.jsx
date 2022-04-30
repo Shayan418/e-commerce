@@ -1,10 +1,9 @@
 /* eslint-disable prefer-template */
-import React, { useContext } from 'react';
+import React from 'react';
 import './HomePage.scss';
 import { Button, Container, Row } from 'react-bootstrap';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import addToWishlist from '../utils/wishlist';
 import 'react-toastify/dist/ReactToastify.css';
 
 function HomePage() {
