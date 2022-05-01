@@ -112,4 +112,4 @@ class Orders(models.Model):
     seller = models.ForeignKey(User, on_delete=CASCADE, null=True, related_name='seller_in_order')
     buyer = models.ForeignKey(User, on_delete=CASCADE, null=True, related_name='buyer_in_order')
     product = models.ForeignKey(Product, on_delete=CASCADE, null=True)
-    
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
