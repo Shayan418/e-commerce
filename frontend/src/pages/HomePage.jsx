@@ -38,7 +38,7 @@ function HomePage() {
 
   function AddToWishlist(e) {
     const user = JSON.parse(localStorage.getItem('authTokens')).access;
-    console.log('wishlist' + e.target.id);
+    console.log(user);
     const Wishlist = async (e) => {
       e.preventDefault();
       const responce = await fetch(
@@ -113,7 +113,10 @@ function HomePage() {
                   <Button id={item.id} onClick={(e) => productView(e)}>
                     View
                   </Button>
-                  <Button id={item.id} onClick={(e) => addToCart(e)}>
+                  <Button
+                    id={item.id}
+                    seller={item.currentSeller}
+                    onClick={(e) => addToCart(e)}>
                     Add to Cart
                   </Button>
                 </div>

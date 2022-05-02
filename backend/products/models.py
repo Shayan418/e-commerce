@@ -1,11 +1,11 @@
 from asyncio.windows_events import NULL
 from itertools import product
+from operator import mod
 from django.db import models
 from django_extensions.db.fields import AutoSlugField
 from authapp.models import User
 from django.db.models.deletion import CASCADE
 import random
-import uuid
 
 class Category(models.Model):
     parent = models.ForeignKey(
@@ -102,14 +102,15 @@ class Cart(models.Model):
 
 class Orders(models.Model):
     Order_Status = (
-        ('pending', 'Pending'),
+        ('pending', 'Payment Pending'),
         ('confirmed', 'Confirmed'),
         ('dispatched', 'dispatched'),
         ('delivered', 'Delivered'),
     )
-    order_id = models.UUIDField(default=uuid.uuid4, editable=False)
+    order_id = models.CharField(max_length=128)
     order_status = models.CharField(max_length=20, choices=Order_Status, default='pending')
     seller = models.ForeignKey(User, on_delete=CASCADE, null=True, related_name='seller_in_order')
     buyer = models.ForeignKey(User, on_delete=CASCADE, null=True, related_name='buyer_in_order')
     product = models.ForeignKey(Product, on_delete=CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
+    item_price = models.PositiveIntegerField(null=True)

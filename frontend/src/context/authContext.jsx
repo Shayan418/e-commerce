@@ -82,6 +82,7 @@ export function AuthProvider({ children }) {
     setAuthTokens(null);
     setUser(null);
     localStorage.removeItem('authTokens');
+    localStorage.clear();
     navigate('/');
   };
 
@@ -111,7 +112,7 @@ export function AuthProvider({ children }) {
     if (loading) {
       refreshToken();
     }
-    const refrestInterval = 1000 * 60 * 12;
+    const refrestInterval = 1000 * 60 * 998;
     const interval = setInterval(() => {
       if (authTokens) {
         refreshToken();
