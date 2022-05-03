@@ -37,8 +37,7 @@ function HomePage() {
   }, [productsData]);
 
   function AddToWishlist(e) {
-    const user = JSON.parse(localStorage.getItem('authTokens')).access;
-    console.log(user);
+    const accessToken = JSON.parse(localStorage.getItem('authTokens')).access;
     const Wishlist = async (e) => {
       e.preventDefault();
       const responce = await fetch(
@@ -46,7 +45,7 @@ function HomePage() {
         {
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${user}`,
+            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({

@@ -128,6 +128,7 @@ export function AuthProvider({ children }) {
     RegisterUser,
   };
 
+  console.log(user)
   return (
     <AuthContext.Provider value={contextData}>
       {loading ? null : children}

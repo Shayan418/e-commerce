@@ -42,7 +42,7 @@ class Product(models.Model):
     title = models.CharField(max_length=128)
     description = models.CharField(max_length=1024)
     time = models.DateTimeField(auto_now=True, auto_now_add=False)
-    price = models.ForeignKey("Prices", on_delete=models.SET_NULL, null=True)
+    price = models.ForeignKey("Prices", on_delete=models.SET_NULL, null=True, blank=True)
     sellers = models.ManyToManyField(User, through="Product_Seller")
     item_category = models.ForeignKey(
         Category,

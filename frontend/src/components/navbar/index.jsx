@@ -36,11 +36,13 @@ function Newheader() {
             <Nav.Link href="#link">Link</Nav.Link>
             {user ? (
               <NavDropdown title={`Hi! ${user.first_name}`} id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                <NavDropdown.Item href="/orderhistory">Orders</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item onClick={logoutUser} href="/logout">Logout</NavDropdown.Item>
+                <NavDropdown.Item onClick={logoutUser} href="/logout">
+                  Logout
+                </NavDropdown.Item>
               </NavDropdown>
             ) : (
               <NavDropdown title="Login" id="basic-nav-dropdown">

@@ -70,6 +70,11 @@ class CartCreateSerializer(serializers.ModelSerializer):
             seller = validated_data["seller"]
         )
         return cartObject
+
+class CartItemsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cart
+        fields = ["product_id", "seller_id"]
     
 class CreateOrderSerializer(serializers.ModelSerializer):
     class Meta:

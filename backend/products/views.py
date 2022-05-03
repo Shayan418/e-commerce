@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .serializers import (
+    CartItemsSerializer,
     CategorySerializer,
     ProductSerializer,
     ProductSellerSerializer,
@@ -53,6 +54,7 @@ def getProductSellers(request):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def AddRemoveWishlist(request):
+    print(request.data)
     wishlistobj = Wishlist.objects.filter(
         product=request.data["product"], user=request.user
     )
@@ -152,11 +154,7 @@ def AddRemoveCart(request):
 @permission_classes([IsAuthenticated])
 def CartItems(request):
     cartobj = Cart.objects.filter(buyer=request.user, active=True)
-    product_ids = []
-    for products in cartobj:
-        product_ids.append(products.product_id)
-    products = Product.objects.filter(id__in=product_ids)
-    serializer = ProductSerializer(products, many=True)
+    serializer = CartItemsSerializer(cartobj, many=True)
     return Response(serializer.data)
 
 
@@ -165,12 +163,20 @@ def CartItems(request):
 def Order(request):
     # cartobj = Cart.objects.filter(buyer=request.user, active=True)
     print(request.data)
+    for item in request.data:
+        print(item)
     order_id = str(uuid.uuid4())
     print(order_id)
     amount = 0
-    for item in request.data["products"]:
-        product = Product.objects.get(id=item["product"])
-        seller = User.objects.get(id=item["seller"])
+    
+    """ return Response(
+        {
+            "lol": "ok",
+        }
+    )  """
+    for item in request.data:
+        product = Product.objects.get(id=item["product_id"])
+        seller = User.objects.get(id=item["seller_id"])
         product_seller_item = Product_Seller.objects.get(product=product, seller=seller)
         product_seller_item.count = product_seller_item.count - 1
         price = Prices.objects.get(user=seller, product_id=product)
@@ -224,6 +230,9 @@ def Order(request):
 @api_view(["POST"])
 def OrderHistory(request):
     print(request.data)
+    orders = Orders.objects.filter(buyer=request.user)
+    
+    print(orders)
     return Response(
         {
             "message": "orders history called",
