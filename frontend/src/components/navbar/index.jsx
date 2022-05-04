@@ -1,24 +1,15 @@
-import {
-  Navbar,
-  Nav,
-  NavLink,
-  NavItem,
-  NavbarBrand,
-  Button,
-  Container,
-  NavDropdown,
-} from 'react-bootstrap';
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import React, { useContext } from 'react';
 import { AiFillShop, AiOutlineShoppingCart } from 'react-icons/ai';
 import useWindowSize from '../../utils/useWindowSize';
 import AuthContext from '../../context/authContext';
+import './index.scss';
 
 function Newheader() {
-  let cartcount = '';
+  let cartCount = '';
   if (localStorage.getItem('cart')) {
-    cartCount = JSON.parse(localStorage.getItem('cart'));
+    cartCount = JSON.parse(localStorage.getItem('cart')).length;
   }
-  console.log(cartCount);
   const size = useWindowSize();
   const { user, logoutUser } = useContext(AuthContext);
   return (
@@ -31,7 +22,7 @@ function Newheader() {
           <div className="d-flex flex-grow-1 justify-content-end">
             <Nav.Link href="#" className="d-flex ">
               <AiOutlineShoppingCart />
-              <div className="cart-count">12</div>
+              <div className="cart-count">{cartCount}</div>
             </Nav.Link>
           </div>
         ) : null}
@@ -64,7 +55,7 @@ function Newheader() {
         {size.width > 991 ? (
           <Nav.Link href="#">
             <AiOutlineShoppingCart />
-            <div className="cart-count">12</div>
+            <div className="cart-count-wide">{cartCount}</div>
           </Nav.Link>
         ) : null}
       </Container>
