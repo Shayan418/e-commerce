@@ -14,6 +14,11 @@ import useWindowSize from '../../utils/useWindowSize';
 import AuthContext from '../../context/authContext';
 
 function Newheader() {
+  let cartcount = '';
+  if (localStorage.getItem('cart')) {
+    cartCount = JSON.parse(localStorage.getItem('cart'));
+  }
+  console.log(cartCount);
   const size = useWindowSize();
   const { user, logoutUser } = useContext(AuthContext);
   return (
@@ -26,6 +31,7 @@ function Newheader() {
           <div className="d-flex flex-grow-1 justify-content-end">
             <Nav.Link href="#" className="d-flex ">
               <AiOutlineShoppingCart />
+              <div className="cart-count">12</div>
             </Nav.Link>
           </div>
         ) : null}
@@ -58,6 +64,7 @@ function Newheader() {
         {size.width > 991 ? (
           <Nav.Link href="#">
             <AiOutlineShoppingCart />
+            <div className="cart-count">12</div>
           </Nav.Link>
         ) : null}
       </Container>
