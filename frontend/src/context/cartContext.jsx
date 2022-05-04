@@ -7,9 +7,7 @@ export default CartContext;
 
 export function CartProvider({ children }) {
   const [cartProductSeller, setCartProductSeller] = React.useState(() =>
-    localStorage.getItem('cart')
-      ? JSON.parse(localStorage.getItem('cart'))
-      : { products: [] },
+    localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [],
   );
 
   let accessToken = '';
@@ -17,8 +15,19 @@ export function CartProvider({ children }) {
     accessToken = JSON.parse(localStorage.getItem('authTokens')).access;
   }
 
-  const addToCart = () => {
-    return null;
+  const addToCart = (e) => {
+    if (accessToken) {
+      console.log('access token true');
+    } else {
+      const newcart = cartProductSeller;
+      newcart.push({
+        product_id: e.target.dataset.productid,
+        seller_id: e.target.dataset.sellerid,
+      });
+      setCartProductSeller(newcart);
+      console.log(cartProductSeller);
+    }
+    console.log(e);
   };
 
   const fetchCartData = async () => {
@@ -40,11 +49,21 @@ export function CartProvider({ children }) {
     }
   };
 
+  const updateStoredData = () => {
+    localStorage.setItem('cart', JSON.stringify(cartProductSeller));
+  };
+
   useEffect(() => {
     if (accessToken) {
       fetchCartData();
     }
   }, [accessToken]);
+
+  useEffect(() => {
+    if (accessToken) {
+      updateStoredData();
+    }
+  }, [cartProductSeller]);
 
   const contextData = {
     cartProductSeller,

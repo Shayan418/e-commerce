@@ -5,11 +5,13 @@ import { Button, Container, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CartContext from '../context/cartContext';
 
 function HomePage() {
   const [productsData, setProductsData] = React.useState([]);
   const navigate = useNavigate();
   const notify = (message) => toast(message);
+  const { addToCart } = React.useContext(CartContext);
   const fetchProducts = async () => {
     const responce = await fetch('http://127.0.0.1:8000/products/api/allProducts/', {
       method: 'POST',
@@ -68,9 +70,6 @@ function HomePage() {
 
     Wishlist(e);
   }
-  function addToCart(e) {
-    console.log('Cart' + e.target.id);
-  }
 
   function productView(e) {
     console.log('productView' + e.target.id);
@@ -113,8 +112,8 @@ function HomePage() {
                     View
                   </Button>
                   <Button
-                    id={item.id}
-                    seller={item.currentSeller}
+                    data-productid={item.id}
+                    data-sellerid={item.currentSeller}
                     onClick={(e) => addToCart(e)}>
                     Add to Cart
                   </Button>

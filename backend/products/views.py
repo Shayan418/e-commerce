@@ -1,4 +1,5 @@
 from urllib import response
+from django.http import HttpResponseRedirect
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -159,6 +160,12 @@ def CartItems(request):
 
 
 @api_view(["POST"])
+def CartItemsDetailed(request):
+    print(request.data)
+    return Response({"status": "susuy"})
+
+
+@api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def Order(request):
     # cartobj = Cart.objects.filter(buyer=request.user, active=True)
@@ -168,7 +175,7 @@ def Order(request):
     order_id = str(uuid.uuid4())
     print(order_id)
     amount = 0
-    
+
     """ return Response(
         {
             "lol": "ok",
@@ -191,7 +198,7 @@ def Order(request):
         print(newOrder)
 
     url = "https://api.razorpay.com/v1/payment_links"
-    
+
     payload = json.dumps(
         {
             "amount": amount,
@@ -202,7 +209,7 @@ def Order(request):
             "reference_id": order_id,
             "description": "Payment for policy no #23456",
             "customer": {
-                "name": request.user.first_name + " " +request.user.last_name,
+                "name": request.user.first_name + " " + request.user.last_name,
                 "contact": request.user.phone,
                 "email": request.user.email,
             },
@@ -230,10 +237,9 @@ def Order(request):
 @api_view(["POST"])
 def OrderHistory(request):
     print(request.data)
-    orders = Orders.objects.filter(buyer=request.user).order_by('-created_at')
+    orders = Orders.objects.filter(buyer=request.user).order_by("-created_at")
     serializer = OrderHistorySerializer(orders, many=True)
     return Response(serializer.data)
-
 
 
 @api_view(["GET"])
@@ -242,16 +248,12 @@ def OrderConfirm(request):
     order_id = request.query_params["razorpay_payment_link_reference_id"]
     print(order_id)
     orders = Orders.objects.filter(order_id=order_id)
-    
+
     for order in orders:
         order.order_status = "confirmed"
         order.save()
-    
-    return Response(
-        {
-            "message": "payment confirmed",
-        }
-    )
+
+    return HttpResponseRedirect("http://127.0.0.1:3000/orderhistory")
 
 
 @api_view(["GET"])

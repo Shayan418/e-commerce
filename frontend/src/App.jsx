@@ -14,6 +14,7 @@ import RegisterForm from './pages/RegisterPage';
 import PublicRoute from './utils/PublicRoute';
 import Categories from './components/categories/categories';
 import OrderHistory from './pages/OrderHistoryPage';
+import Cart from './pages/Cart';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
               path="orderHistory"
               element={<PrivateRoute outlet={<OrderHistory />} />}
             />
+            <Route path="Cart" element={<PublicRoute outlet={<Cart />} />} />
           </Routes>
         </CartProvider>
       </AuthProvider>

@@ -7,6 +7,7 @@ import './index.scss';
 
 function Newheader() {
   let cartCount = '';
+  console.log(localStorage.getItem('cart'));
   if (localStorage.getItem('cart')) {
     cartCount = JSON.parse(localStorage.getItem('cart')).length;
   }
@@ -20,7 +21,7 @@ function Newheader() {
         </Navbar.Brand>
         {size.width < 992 ? (
           <div className="d-flex flex-grow-1 justify-content-end">
-            <Nav.Link href="#" className="d-flex ">
+            <Nav.Link href="/cart" className="d-flex ">
               <AiOutlineShoppingCart />
               <div className="cart-count">{cartCount}</div>
             </Nav.Link>
@@ -53,7 +54,7 @@ function Newheader() {
           </Nav>
         </Navbar.Collapse>
         {size.width > 991 ? (
-          <Nav.Link href="#">
+          <Nav.Link href="/cart">
             <AiOutlineShoppingCart />
             <div className="cart-count-wide">{cartCount}</div>
           </Nav.Link>

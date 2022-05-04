@@ -3,18 +3,28 @@ import { Container, Row } from 'react-bootstrap';
 import './OrderHistoryPage.scss';
 
 function OrderHistory() {
-  const accessToken = JSON.parse(localStorage.getItem('authTokens')).access;
+  let accessToken = '';
+  if (localStorage.getItem('authTokens')) {
+    accessToken = JSON.parse(localStorage.getItem('authTokens')).access;
+  }
+
+  let cartData = '';
+  if (localStorage.getItem('cart')) {
+    cartData = JSON.parse(localStorage.getItem('cart'));
+  }
+  console.log(cartData);
+
   const [historyData, setHistoryData] = React.useState([]);
 
   const fetchHistory = async () => {
     const responce = await fetch(
-      'http://127.0.0.1:8000/products/api/product/orderHistory/',
+      'http://127.0.0.1:8000/products/api/product/cartItems/full/',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
         },
+        body: JSON.stringify(`${cartData}`),
       },
     );
     const data = await responce.json();
@@ -68,7 +78,7 @@ function OrderHistory() {
                     <div className="col-md-12">{item.order_status}</div>
                   </div>
                   <div className="row">
-                    <div className="col-md-12">seller : {item.seller_name}</div>
+                    <div className="col-md-12">{item.seller_name}</div>
                   </div>
                 </div>
               </div>
