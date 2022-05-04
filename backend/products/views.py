@@ -9,7 +9,7 @@ from .serializers import (
     ProductSellerSerializer,
     WishlistCreateSerializer,
     CartCreateSerializer,
-    CreateOrderSerializer,
+    OrderHistorySerializer,
 )
 from .models import Category, Product, Product_Seller, Wishlist, Cart, Orders, Prices
 from authapp.models import User
@@ -230,14 +230,10 @@ def Order(request):
 @api_view(["POST"])
 def OrderHistory(request):
     print(request.data)
-    orders = Orders.objects.filter(buyer=request.user)
-    
-    print(orders)
-    return Response(
-        {
-            "message": "orders history called",
-        }
-    )
+    orders = Orders.objects.filter(buyer=request.user).order_by('-created_at')
+    serializer = OrderHistorySerializer(orders, many=True)
+    return Response(serializer.data)
+
 
 
 @api_view(["GET"])

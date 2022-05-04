@@ -91,3 +91,12 @@ class CreateOrderSerializer(serializers.ModelSerializer):
             seller = validated_data["seller"]
         )
         return cartObject
+    
+
+class OrderHistorySerializer(serializers.ModelSerializer):
+    product_title = serializers.CharField(source="product.title")
+    seller_name = serializers.CharField(source="seller.first_name")
+    image = ImageSerializer(read_only=True, many=True, source="product.images") 
+    class Meta:
+        model = Orders
+        fields = ["id","order_id", "order_status", "created_at", "item_price", "product_title", "seller_name", "image"]
